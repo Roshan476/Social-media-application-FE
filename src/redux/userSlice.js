@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"; // Importing the `createSlice` function to create a Redux slice.
-import { dispatch } from "./store"; // Importing the `dispatch` method (though this is not a recommended practice, as explained earlier).
+import { user } from "../assets/data";
 
 // Initial state for the user slice. This includes:
 // - `user`: Fetched from localStorage or defaulting to an empty object.
 // - `edit`: A boolean flag to track if the profile is in edit mode.
 const initialState = {
-    user: JSON.parse(window?.localStorage.getItem("user")) ?? {},
+    user: JSON.parse(window?.localStorage.getItem("user")) ?? user,
     edit: false,
 };
 
