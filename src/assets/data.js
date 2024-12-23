@@ -113,6 +113,12 @@ export const user = {
       lastName: "One",
       email: "user!@gmail.com",
     },
+    {
+      _id: "64df424b4a4c0d47b5369f6",
+      firstName: "User",
+      lastName: "two",
+      email: "user!@gmail.com",
+    },
   ];
   
   export const requests = [
@@ -142,6 +148,10 @@ export const user = {
     {
       _id: "64df424b4a4c0d47b5369f65",
       ...friends[2],
+    },
+    {
+      _id: "64df424b4a4c0d47b5369f6",
+      ...friends[3],
     },
   ];
   export const posts = [

@@ -54,3 +54,8 @@ export function Logout() {
         dispatch(userSlice.actions.logout()); // Dispatch the logout action to clear user data.
     };
 }
+export function UpadateProfile(val){
+    return (dispatch,getState)=>{
+        dispatch(userSlice.actions.updateProfile(val));
+    };
+}

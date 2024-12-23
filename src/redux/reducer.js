@@ -4,10 +4,10 @@ import {combineReducers } from "@reduxjs/toolkit";
  import postSlice from "./postSlice";
 
 
- const rootReducer =combineReducers({
+ const rootReducer = combineReducers({
     user: userSlice,
     theme: themeSlice,
     posts: postSlice,
  });
 
- export{rootReducer};
+ export {rootReducer};
