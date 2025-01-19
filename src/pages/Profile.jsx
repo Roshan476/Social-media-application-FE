@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useDebugValue, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { EditProfile, FriendCard, Loading, PostCard, ProfileCard, TopBar } from '../components';
-import { posts } from '../assets/data';
+import { deletePost, fetchPosts, getUserInfo, likePost } from '../utils';
+// import { posts } from '../assets/data';
 
 const Profile = () => {
   const { id } = useParams(); // Extracts dynamic parameters from the URL
@@ -10,8 +11,37 @@ const Profile = () => {
   const { user, edit } = useSelector((state) => state.user); // Extracts the user state from the Redux store
   const [userInfo, setUserInfo] = useState(user); // Local state for user information
   const [loading, setLoading] = useState(false); // Loading state
-  const handleDelete = () => {};
-  const handleLikePost = () => {}
+  
+  const uri ="/posts/get-user-post/" + id;
+  
+  const {posts} = useSelector((state)=>state.posts);
+  
+  const getUser = async()=>{
+    const res = await getUserInfo(user?.token,id);
+    setUserInfo(res);
+  };
+  const getPosts = async()=>{
+  await fetchPosts(user.token,dispatch,uri);
+    setLoading(false);
+  };
+
+
+  const handleDelete = async (id) => {
+    await deletePost(id,user.token);
+    await getPosts();
+  };
+
+  const handleLikePost = async(uri) => {
+  await likePost({uri: uri,token:user?.token});
+  await getPosts();
+  };
+
+  useEffect(()=>{
+  setLoading(true);
+  getUser();
+  getPosts();
+},[id]);
+
   return (
     <>
       <div className='home w-full px-0 lg:px-10 pb-20 2xl:px-40 bg-bgColor lg:rounded-lg h-screen overflow-hidden'>

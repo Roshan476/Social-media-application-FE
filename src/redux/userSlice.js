@@ -5,7 +5,7 @@ import { user } from "../assets/data";
 // - `user`: Fetched from localStorage or defaulting to an empty object.
 // - `edit`: A boolean flag to track if the profile is in edit mode.
 const initialState = {
-    user: JSON.parse(window?.localStorage.getItem("user")) ?? user,
+    user: JSON.parse(window?.localStorage.getItem("user")) ?? {},
     edit: false,
 };
 

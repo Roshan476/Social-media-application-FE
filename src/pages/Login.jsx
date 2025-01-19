@@ -10,18 +10,48 @@ import { useDispatch } from 'react-redux';
 import Loading from '../components/Loading';
 import CustomButton from '../components/CustomButton';
 import { BgImage } from '../assets';
+import { apiRequest } from '../utils';
+import { UserLogin } from '../redux/userSlice';
+
 const Login = () => {
+  const [errMsg,setErrMsg]=useState("");
+  const [isSubmitting,setIsSubmitting]=useState(false);
+  const dispatch = useDispatch();
   const {register,
     handleSubmit,
     formState:{errors},}= useForm({
   mode:"onChange",
   });
-const onSubmit=async(data)=>{
+  //this part is done after setting front end and beckend work to  request for login after registration  
   
+const onSubmit=async(data)=>{
+  setIsSubmitting(true);
+   try{
+        const res = await apiRequest({
+          url : "/auth/login",
+          data : data,
+          method : "POST",
+        });
+       
+        if(res?.status === "failed"){
+          setErrMsg(res);
+        }else{
+          setErrMsg("");
+          
+          const newData = {token:res?.token, ...res?.user};
+          dispatch(UserLogin(newData));
+          window.location.replace("/");
+        }
+        setIsSubmitting(false);
+    }catch(error){
+    console.log(error);
+    setIsSubmitting(false);
+   }
 }
-  const [errMsg,setErrMsg]=useState("");
-  const [isSubmitting,setIsSubmitting]=useState(false);
-  const dispatch = useDispatch();
+
+
+
+ 
   return (
     <div className='bg-bgColor w-full h-[100vh] flex items-cente justify-center p-6'>
     <div className='w-full md:w-2/3 h-fit lg:h-full 2xl:h-5/6 py-8 lg:py-0 
@@ -77,7 +107,7 @@ const onSubmit=async(data)=>{
     </Link>
     {
       errMsg?.message&&(
-        <span className={`text-sm${
+        <span className={`text-sm ${
           errMsg?.status=="failed"? "text-[#f64949fe]":"text-[#2ba150fe]"
         } mt-0.5`}>
           {errMsg?.message}
